@@ -10,7 +10,9 @@ app.use(cors());
 app.use(express.json());
 
 // Konfigurasi database
-const dbConfig = {
+const dbConfig = process.env.MYSQL_URL ? {
+  uri: process.env.MYSQL_URL,
+} : {
   host: process.env.DB_HOST || 'localhost',
   port: parseInt(process.env.DB_PORT) || 3306,
   user: process.env.DB_USER || 'root',
@@ -18,6 +20,9 @@ const dbConfig = {
   database: process.env.DB_NAME || 'worklog_db',
 };
 
+const pool = process.env.MYSQL_URL 
+  ? mysql.createPool(process.env.MYSQL_URL)
+  : mysql.createPool(dbConfig);
 const JWT_SECRET = process.env.JWT_SECRET || 'worklog_secret_key_2024';
 
 // Buat koneksi pool
