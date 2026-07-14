@@ -20,13 +20,13 @@ const dbConfig = process.env.MYSQL_URL ? {
   database: process.env.DB_NAME || 'worklog_db',
 };
 
-const pool = process.env.MYSQL_URL 
-  ? mysql.createPool(process.env.MYSQL_URL)
-  : mysql.createPool(dbConfig);
+
 const JWT_SECRET = process.env.JWT_SECRET || 'worklog_secret_key_2024';
 
 // Buat koneksi pool
-const pool = mysql.createPool(dbConfig);
+const pool = process.env.MYSQL_URL 
+  ? mysql.createPool(process.env.MYSQL_URL)
+  : mysql.createPool(dbConfig);
 
 // Middleware autentikasi
 const authMiddleware = async (req, res, next) => {
